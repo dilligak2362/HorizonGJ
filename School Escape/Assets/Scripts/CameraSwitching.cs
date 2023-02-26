@@ -5,7 +5,9 @@ using UnityEngine;
 public class CameraSwitching : MonoBehaviour
 {
     int noClick = 0;
+    int noClickzoom = 0;
     public GameObject[] cameras;
+    public GameObject[] zoom;
     
     // Start is called before the first frame update
     void Start()
@@ -34,14 +36,42 @@ public class CameraSwitching : MonoBehaviour
         {
             cameras[noClick].SetActive(false);
 
-            noClick++;
+            noClick--;
 
-            if ((noClick) >= -cameras.Length)
+            if ((noClick) < 0)
             {
-                noClick = 0;
+                noClick = cameras.Length - 1;
             }
 
             cameras[noClick].SetActive(true);
+        }
+
+        if (Input.GetKeyDown(KeyCode.Z))
+        {
+            zoom[noClickzoom].SetActive(false);
+
+            noClickzoom++;
+
+            if ((noClickzoom) >= cameras.Length)
+            {
+                noClickzoom = 0;
+            }
+
+            zoom[noClickzoom].SetActive(true);
+        }
+
+        if (Input.GetKeyDown(KeyCode.W))
+        {
+            zoom[noClickzoom].SetActive(false);
+
+            noClickzoom--;
+
+            if ((noClick) < 0)
+            {
+                noClickzoom = cameras.Length - 1;
+            }
+
+            zoom[noClickzoom].SetActive(true);
         }
     }
 }
