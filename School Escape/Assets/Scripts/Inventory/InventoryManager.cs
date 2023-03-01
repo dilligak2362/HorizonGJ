@@ -16,16 +16,29 @@ public class InventoryManager : MonoBehaviour
 
     public List<InventoryItem> items;
 
+    #region InventoryManager Singleton
+    static private InventoryManager instance;
+    static public InventoryManager Instance { get { return instance; } }
+
+    void CheckManagerIsInScene()
+    {
+
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else
+        {
+            Destroy(this.gameObject);
+        }
+    }
+    #endregion
+
     // Start is called before the first frame update
     void Start()
     {
+        CheckManagerIsInScene();
         items = new List<InventoryItem>();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
     // Adds a new item to the list
