@@ -16,12 +16,14 @@ public class InventorySlot : MonoBehaviour
 {
     public TMP_Text nameText;
     public Image Image;
-    public Item Item;
+    [HideInInspector] public Item Item;
+    public GameObject Highlight;
 
     // Start is called before the first frame update
     void Start()
     {
         gameObject.SetActive(false);
+        Highlight.SetActive(false);
     }
 
     // Called when the item is inspected (probably will pull up a larger sprite in the UI)
@@ -36,11 +38,13 @@ public class InventorySlot : MonoBehaviour
         Item = i;
         nameText.text = i.Name;
         Image.sprite = i.Sprite;
+        Highlight.GetComponent<Image>().sprite = i.Sprite;
     }
 
-    public void HighlightItem(bool Highlight)
+    public void HighlightItem(bool highlight)
     {
-
+        Highlight.SetActive(highlight);
+        nameText.color = highlight ? Color.yellow : Color.black;
     }
     public void OnClick()
     {
