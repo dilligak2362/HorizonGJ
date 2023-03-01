@@ -6,6 +6,11 @@ public class TempTester : MonoBehaviour
 {
     public void Test()
     {
-        Debug.Log("Pressed!");
+        Debug.Log("Placed!");
+    }
+
+    public void Test2()
+    {
+        Debug.Log("Removed!");
     }
 }

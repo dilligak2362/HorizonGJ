@@ -13,13 +13,17 @@ using UnityEngine;
 
 public class Pickup : MonoBehaviour
 {
-    public bool Locked;
     [SerializeField] Item Item;
+    public bool Locked;
+    public bool DestroyOnPickup = true;
+
     private void OnMouseDown()
     {
         if (Locked)
             return;
         InventoryManager.Instance.AddItem(Item);
+        if (DestroyOnPickup)
+            gameObject.SetActive(false);
     }
 
     public void Unlock()

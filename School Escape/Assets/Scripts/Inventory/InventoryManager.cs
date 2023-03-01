@@ -15,11 +15,9 @@ using UnityEngine;
 
 public class InventoryManager : MonoBehaviour
 {
-    public InventorySlot activeItem;
-
-    // HARD CODED INVENTORY SIZE = BAD. BUT QUICK AND EASY!! :D ~Coleton
-    public List<Item> items;
-    public List<GameObject> UIItems;
+    public InventorySlot ActiveSlot;
+    public List<Item> Items;
+    public List<GameObject> Slots;
 
     #region InventoryManager Singleton
     static private InventoryManager instance;
@@ -49,56 +47,73 @@ public class InventoryManager : MonoBehaviour
     public void AddItem(Item i)
     {
         // HARD CODED GARBAGE YAY ~Coleton
-        if (items.Count == 5)
+        if (Items.Count == 5)
             return;
-        items.Add(i);
+        Items.Add(i);
         AdjustInventory();
     }
 
     // Removes an item from the list
     public void RemoveItem(Item i)
     {
-        if (!items.Contains(i))
+        if (!Items.Contains(i))
         {
             return;
         }
-        items.Remove(i);
+        ActiveSlot = null;
+        Items.Remove(i);
         AdjustInventory();
     }
 
     // Adjust the inventory items
     void AdjustInventory()
     {
-        int index = 0;
-
         // Disable all inactive inventory slots
-        for (int i = 5 - items.Count; i < 5; i++)
+        for (int i = Items.Count; i < 5; i++)
         {
-            Debug.Log(i);
-            UIItems[i].SetActive(false);
+            Slots[i].SetActive(false);
         }
-
+        
         // Enable and update all inventory slots that are in use
-        for (int i = 0; i < items.Count; i++)
+        int index = 0;
+        for (int i = 0; i < Items.Count; i++)
         {
-            if (items[i] == null)
+            if (Items[i] == null)
                 continue;
-            UIItems[index].SetActive(true);
-            UIItems[index].GetComponent<InventorySlot>().SetItem(items[i]);
+            Slots[index].SetActive(true);
+            Slots[index].GetComponent<InventorySlot>().SetItem(Items[i]);
             index++;
         }
     }
 
-    // Activates an item from the list from an index
-    //public void SetActiveItem(int index)
-    //{
-    //    if(index < UIItems.Count)
-    //    {
-    //        activeItem = UIItems[index];
-    //    }
-    //    else
-    //    {
-    //        activeItem = null;
-    //    }
-    //}
+    public InventorySlot GetActiveSlot()
+    {
+        return ActiveSlot;
+    }
+
+    public void SetActiveSlot(InventorySlot slot)
+    {
+        if (ActiveSlot == slot)
+        {
+            ActiveSlot = null;
+        }
+        else
+        {
+            ActiveSlot = slot;
+        }
+
+        foreach (GameObject o in Slots) {
+            if (o.activeSelf == false)
+                continue;
+            InventorySlot s = o.GetComponent<InventorySlot>();
+            if (s == ActiveSlot)
+            {
+                s.HighlightItem(true);
+            }
+            else
+            {
+                s.HighlightItem(false);
+            }
+        }
+    }
 }

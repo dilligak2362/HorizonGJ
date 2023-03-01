@@ -16,6 +16,7 @@ public class InventorySlot : MonoBehaviour
 {
     public TMP_Text nameText;
     public Image Image;
+    public Item Item;
 
     // Start is called before the first frame update
     void Start()
@@ -29,28 +30,20 @@ public class InventorySlot : MonoBehaviour
 
     }
 
-    // Called when the item is used
-    void UseItem()
-    {
-
-    }
-
     // Apply new item to this inventory slot
     public void SetItem(Item i)
     {
+        Item = i;
         nameText.text = i.Name;
         Image.sprite = i.Sprite;
     }
 
-    // Called when the item is removed from the inventory
-    public void RemoveItem()
+    public void HighlightItem(bool Highlight)
     {
-        gameObject.SetActive(false);
+
     }
-
-
-    public void OnMouseDown()
+    public void OnClick()
     {
-        Debug.Log("Test ui click");
+        InventoryManager.Instance.SetActiveSlot(this);
     }
 }
