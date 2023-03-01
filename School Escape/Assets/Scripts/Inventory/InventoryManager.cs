@@ -4,6 +4,9 @@
  * 
  * Description: Manages the inventory UI, holds a list of items stored in the inventory UI
  * 
+ * Edited by: Coleton
+ * Edited on: 3/1/2023
+ * 
  */
 
 using System.Collections;
@@ -12,9 +15,11 @@ using UnityEngine;
 
 public class InventoryManager : MonoBehaviour
 {
-    public InventoryItem activeItem;
+    public InventorySlot activeItem;
 
-    public List<InventoryItem> items;
+    // HARD CODED INVENTORY SIZE = BAD. BUT QUICK AND EASY!! :D ~Coleton
+    public List<Item> items;
+    public List<GameObject> UIItems;
 
     #region InventoryManager Singleton
     static private InventoryManager instance;
@@ -34,67 +39,66 @@ public class InventoryManager : MonoBehaviour
     }
     #endregion
 
-    // Start is called before the first frame update
     void Start()
     {
         CheckManagerIsInScene();
-        items = new List<InventoryItem>();
+        AdjustInventory();
     }
 
     // Adds a new item to the list
-    public void AddItem(InventoryItem i)
+    public void AddItem(Item i)
     {
-        if(items.Contains(i))
-        {
+        // HARD CODED GARBAGE YAY ~Coleton
+        if (items.Count == 5)
             return;
-        }
-
         items.Add(i);
-        GameObject iGO = i.gameObject;
-        iGO.SetActive(true);
-        Vector3 rectPos = iGO.GetComponent<RectTransform>().position;
-        rectPos.x = 120 * (items.Count-1);
-        iGO.GetComponent<RectTransform>().position = rectPos;
-        i.itemNum = items.Count;
+        AdjustInventory();
     }
 
     // Removes an item from the list
-    public void RemoveItem(InventoryItem i)
+    public void RemoveItem(Item i)
     {
-        int index = items.IndexOf(i);
-        if(index == -1)
+        if (!items.Contains(i))
         {
             return;
         }
-
-        // Remove the item
         items.Remove(i);
-        i.RemoveItem();
-
-        // Adjust the remaining inventory items
-        for(int x = index; x < items.Count; x++)
-        {
-            Vector3 pos = items[x].GetComponent<RectTransform>().position;
-            pos.x -= 120;
-            items[x].GetComponent<RectTransform>().position = pos;
-
-            items[x].itemNum--;
-            items[x].UpdateText();
-        }
+        AdjustInventory();
     }
 
-    // Removes an item at an index
+    // Adjust the inventory items
+    void AdjustInventory()
+    {
+        int index = 0;
+
+        // Disable all inactive inventory slots
+        for (int i = 5 - items.Count; i < 5; i++)
+        {
+            Debug.Log(i);
+            UIItems[i].SetActive(false);
+        }
+
+        // Enable and update all inventory slots that are in use
+        for (int i = 0; i < items.Count; i++)
+        {
+            if (items[i] == null)
+                continue;
+            UIItems[index].SetActive(true);
+            UIItems[index].GetComponent<InventorySlot>().SetItem(items[i]);
+            index++;
+        }
+    }
 
     // Activates an item from the list from an index
-    public void SetActiveItem(int index)
-    {
-        if(index < items.Count)
-        {
-            activeItem = items[index];
-        }
-        else
-        {
-            activeItem = null;
-        }
-    }
+    //public void SetActiveItem(int index)
+    //{
+    //    if(index < UIItems.Count)
+    //    {
+    //        activeItem = UIItems[index];
+    //    }
+    //    else
+    //    {
+    //        activeItem = null;
+    //    }
+    //}
 }

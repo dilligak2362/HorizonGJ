@@ -12,19 +12,14 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public class InventoryItem : MonoBehaviour
+public class InventorySlot : MonoBehaviour
 {
     public TMP_Text nameText;
-    public TMP_Text numberText;
-    public int itemNum = 0;
-    public string itemName = "unnamed";
-
-    //public int itemID
+    public Image Image;
 
     // Start is called before the first frame update
     void Start()
     {
-        UpdateText();
         gameObject.SetActive(false);
     }
 
@@ -40,16 +35,22 @@ public class InventoryItem : MonoBehaviour
 
     }
 
+    // Apply new item to this inventory slot
+    public void SetItem(Item i)
+    {
+        nameText.text = i.Name;
+        Image.sprite = i.Sprite;
+    }
+
     // Called when the item is removed from the inventory
     public void RemoveItem()
     {
         gameObject.SetActive(false);
     }
 
-    // Updates the textboxes to mimmic the name and number fields
-    public void UpdateText()
+
+    public void OnMouseDown()
     {
-        nameText.text = itemName;
-        numberText.text = itemNum.ToString();
+        Debug.Log("Test ui click");
     }
 }

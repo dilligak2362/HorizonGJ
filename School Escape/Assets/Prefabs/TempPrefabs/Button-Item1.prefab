@@ -272,7 +272,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nameText: {fileID: 7340771350052948811}
-  numberText: {fileID: 1736479599470088569}
+  Image: {fileID: 3797518864801386478}
   itemNum: 1
   itemName: tempItem
 --- !u!1 &6618410329209038497
