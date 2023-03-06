@@ -40,7 +40,7 @@ public class InventoryManager : MonoBehaviour
     void Start()
     {
         CheckManagerIsInScene();
-        AdjustInventory();
+        //AdjustInventory();
     }
 
     // Adds a new item to the list
