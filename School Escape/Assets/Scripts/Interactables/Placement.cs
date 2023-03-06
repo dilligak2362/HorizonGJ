@@ -6,6 +6,7 @@ using UnityEngine.Events;
 public class Placement : MonoBehaviour
 {
     [SerializeField] Item Item;
+    [SerializeField] bool CanPlaceMultiple = false;
     [SerializeField] bool HasBeenPlaced = false;
     [SerializeField] PlacementEvent OnPlace;
     [SerializeField] bool CanRemove = false;
@@ -18,7 +19,7 @@ public class Placement : MonoBehaviour
         {
             PickupItem();
         }
-        else if (!HasBeenPlaced)
+        else if (!HasBeenPlaced || CanPlaceMultiple)
         {
             PlaceItem();
         }

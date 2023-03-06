@@ -60,6 +60,7 @@ public class InventoryManager : MonoBehaviour
         {
             return;
         }
+        ActiveSlot.HighlightItem(false);
         ActiveSlot = null;
         Items.Remove(i);
         AdjustInventory();
